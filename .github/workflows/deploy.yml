@@ -38,3 +38,19 @@ jobs:
             --resource-group rg-cosmos-learning \
             --template-file main.bicep \
             --parameters params/dev.bicepparam
+
+      - name: Show ARM operations
+        if: failure()
+        run: |
+          az deployment group operation list \
+            --resource-group rg-cosmos-learning \
+            --name cosmosDeployment \
+            --output table
+
+      - name: Show error details
+        if: failure()
+        run: |
+            az deployment group show \
+              --resource-group rg-cosmos-learning \
+              --name cosmosDeployment \
+              --query properties.error
