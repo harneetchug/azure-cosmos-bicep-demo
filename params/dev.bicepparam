@@ -4,3 +4,5 @@ param environment = 'dev'
 param accountName = 'cosmos-acc-bicep'
 param location = 'francecentral'
 param freeTierEnabled = true
+param databaseName='customerdb'
+param containerName='customerdetails'
