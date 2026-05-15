@@ -9,6 +9,7 @@ module cosmos './modules/cosmos.bicep' = {
     environment: environment
     accountName: accountName
     location: location
-    freeTierEnabled: freeTierEnabled
+    databaseName: databaseName
+    containerName: containerName
   }
 }
