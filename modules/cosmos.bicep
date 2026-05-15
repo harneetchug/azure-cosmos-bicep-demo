@@ -60,8 +60,10 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
       }
     }
 
+
     options: {
       throughput: 400
     }
+  }
   }
 }
