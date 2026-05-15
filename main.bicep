@@ -1,7 +1,6 @@
 param environment string
 param accountName string
 param location string
-param freeTierEnabled bool
 
 module cosmos './modules/cosmos.bicep' = {
   name: 'cosmosDeployment'
