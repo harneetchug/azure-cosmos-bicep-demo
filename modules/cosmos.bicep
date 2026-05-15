@@ -18,7 +18,7 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' = {
   properties: {
     databaseAccountOfferType: 'Standard'
 
-    freeTierEnabled: freeTierEnabled
+    enableFreeTier: true
 
     locations: [
       {
@@ -32,8 +32,9 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' = {
     }
   }
 
-  resource sqlDatabase 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-04-15' = {
-    name: '${accountName.name}/${databaseName}'
+  resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-04-15' = {
+    name: databaseName
+    parent: accountName
 
     properties: {
       resource: {
@@ -41,14 +42,11 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' = {
       }
     }
 
-    dependsOn: [
-      accountName
-    ]
-  }
 }
 
-resource sqlContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2023-04-15' = {
-  name: '${accountName.name}/${databaseName}/${containerName}'
+resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2023-04-15' = {
+  name: containerName
+  parent: database
 
   properties: {
     resource: {
@@ -66,8 +64,4 @@ resource sqlContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/contai
       throughput: 400
     }
   }
-
-  dependsOn: [
-    sqlDatabase
-  ]
 }
