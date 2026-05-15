@@ -1,6 +1,8 @@
 param environment string
 param accountName string
 param location string
+param databaseName string
+param containerName string
 
 module cosmos './modules/cosmos.bicep' = {
   name: 'cosmosDeployment'
