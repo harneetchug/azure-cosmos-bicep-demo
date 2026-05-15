@@ -1,6 +1,6 @@
 using '../main.bicep'
 
 param environment = 'dev'
-param accountName = 'cosmos-account-bicep'
-param location = 'westeurope'
+param accountName = 'cosmos-acc-bicep'
+param location = 'francecentral'
 param freeTierEnabled = true
