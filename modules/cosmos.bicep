@@ -11,12 +11,10 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' = {
 
   tags: {
     environment: environment
-    owner: 'harneet-team'
   }
 
   properties: {
     databaseAccountOfferType: 'Standard'
-
     enableFreeTier: true
 
     locations: [
@@ -30,17 +28,17 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' = {
       defaultConsistencyLevel: 'Session'
     }
   }
+}
 
-  resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-04-15' = {
-    name: databaseName
-    parent: accountName
+resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-04-15' = {
+  name: databaseName
+  parent: cosmos
 
-    properties: {
-      resource: {
-        id: databaseName
-      }
+  properties: {
+    resource: {
+      id: databaseName
     }
-
+  }
 }
 
 resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2023-04-15' = {
@@ -59,10 +57,8 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
       }
     }
 
-
     options: {
       throughput: 400
     }
-  }
   }
 }
