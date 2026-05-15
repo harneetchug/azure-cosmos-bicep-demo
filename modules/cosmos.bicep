@@ -15,7 +15,6 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' = {
 
   properties: {
     databaseAccountOfferType: 'Standard'
-    enableFreeTier: true
 
     locations: [
       {
