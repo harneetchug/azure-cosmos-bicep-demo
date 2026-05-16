@@ -13,7 +13,7 @@ permissions:
 
 
 jobs:
-  deploy:
+  deploy-dev-logicapp:
     runs-on: ubuntu-latest
     environment: dev
 
