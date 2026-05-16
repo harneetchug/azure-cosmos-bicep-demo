@@ -17,74 +17,89 @@ resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
     state: 'Enabled'
 
     definition: {
-      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#"
-      "contentVersion": "1.0.0.0"
+      '$schema': 'https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#'
 
-      "parameters": {
-        "cosmosEndpoint": {
-          "type": "String"
+      contentVersion: '1.0.0.0'
+
+      parameters: {
+        cosmosEndpoint: {
+          type: 'String'
         }
       }
 
-      "triggers": {
-        "HttpTrigger": {
-          "type": "Request",
-          "kind": "Http",
-          "inputs": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": { "type": "string" },
-                "customerId": { "type": "string" },
-                "name": { "type": "string" }
-              },
-              "required": ["id", "customerId"]
+      triggers: {
+        HttpTrigger: {
+          type: 'Request'
+          kind: 'Http'
+
+          inputs: {
+            schema: {
+              type: 'object'
+
+              properties: {
+                id: {
+                  type: 'string'
+                }
+
+                customerId: {
+                  type: 'string'
+                }
+
+                name: {
+                  type: 'string'
+                }
+              }
+
+              required: [
+                'id'
+                'customerId'
+              ]
             }
           }
         }
       }
 
-      "actions": {
+      actions: {
 
-        "BuildDocument": {
-          "type": "Compose",
-          "inputs": {
-            "id": "@triggerBody()?['id']",
-            "customerId": "@triggerBody()?['customerId']",
-            "name": "@triggerBody()?['name']"
+        BuildDocument: {
+          type: 'Compose'
+
+          inputs: {
+            id: '@triggerBody()?[\'id\']'
+            customerId: '@triggerBody()?[\'customerId\']'
+            name: '@triggerBody()?[\'name\']'
           }
-        },
+        }
 
-        "WriteToCosmos": {
-          "type": "Http",
-          "inputs": {
-            "method": "POST",
-            "uri": "[concat(parameters('cosmosEndpoint'), '/dbs/', '${databaseName}', '/colls/', '${containerName}', '/docs')]",
-            "headers": {
-              "Content-Type": "application/json",
-              "x-ms-documentdb-is-upsert": "true"
-            },
-            "body": "@outputs('BuildDocument')"
+        WriteToCosmos: {
+          type: 'Http'
+
+          inputs: {
+            method: 'POST'
+
+            uri: '[concat(parameters(''cosmosEndpoint''), ''/dbs/${databaseName}/colls/${containerName}/docs'')]'
+
+            headers: {
+              'Content-Type': 'application/json'
+              'x-ms-documentdb-is-upsert': 'true'
+            }
+
+            body: '@outputs(''BuildDocument'')'
           }
-        },
+        }
 
-        "Response": {
-          "type": "Response",
-          "inputs": {
-            "statusCode": 200,
-            "body": {
-              "message": "Document inserted into Cosmos DB",
-              "id": "@triggerBody()?['id']"
+        Response: {
+          type: 'Response'
+
+          inputs: {
+            statusCode: 200
+
+            body: {
+              message: 'Document inserted into Cosmos DB'
+              id: '@triggerBody()?[\'id\']'
             }
           }
         }
       }
     }
-
-    parameters: {
-      cosmosEndpoint: {
-        value: cosmosEndpoint
-      }
-    }
-  }
 }
