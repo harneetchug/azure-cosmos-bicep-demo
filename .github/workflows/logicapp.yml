@@ -5,6 +5,7 @@ on:
     paths:
       - 'modules/logicapp.bicep'
       - '.github/workflows/logicapp.yml'
+      - 'params/dev.bicepparam'
     branches:
       - main
 
