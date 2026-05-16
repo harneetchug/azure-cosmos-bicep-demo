@@ -2,9 +2,9 @@ param location string = 'francecentral'
 
 param logicAppName string
 
-param cosmosAccountName string
-param cosmosDatabaseName string
-param cosmosContainerName string
+param accountName string
+param databaseName string
+param containerName string
 
 @description('Cosmos DB endpoint')
 param cosmosEndpoint string
@@ -59,7 +59,7 @@ resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
           "type": "Http",
           "inputs": {
             "method": "POST",
-            "uri": "[concat(parameters('cosmosEndpoint'), '/dbs/', '${cosmosDatabaseName}', '/colls/', '${cosmosContainerName}', '/docs')]",
+            "uri": "[concat(parameters('cosmosEndpoint'), '/dbs/', '${databaseName}', '/colls/', '${containerName}', '/docs')]",
             "headers": {
               "Content-Type": "application/json",
               "x-ms-documentdb-is-upsert": "true"
