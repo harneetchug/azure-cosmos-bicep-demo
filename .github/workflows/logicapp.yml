@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'modules/logicapp.bicep'
+      - 'worflows/logicapp.yml'
     branches:
       - main
 
