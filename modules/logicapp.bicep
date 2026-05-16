@@ -6,12 +6,12 @@ param accountName string
 param databaseName string
 param containerName string
 
+
 @description('Cosmos DB endpoint')
 param cosmosEndpoint string
 
 resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
-  name: logicAppName
-  location: location
+
 
   properties: {
     state: 'Enabled'
