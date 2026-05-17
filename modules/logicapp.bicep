@@ -77,7 +77,7 @@ resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
           inputs: {
             method: 'POST'
 
-            uri: '[concat(parameters(''cosmosEndpoint''), ''/dbs/${databaseName}/colls/${containerName}/docs'')]'
+            uri: '${cosmosEndpoint}/dbs/${databaseName}/colls/${containerName}/docs'
 
             headers: {
               'Content-Type': 'application/json'
