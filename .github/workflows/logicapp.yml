@@ -40,3 +40,24 @@ jobs:
               databaseName=customerdb \
               containerName=customercontainer \
               cosmosEndpoint=https://cosmos-acc-bicep.documents.azure.com:443/
+
+      - name: Get Logic App Principal ID
+        run: |
+          PRINCIPAL_ID=$(az resource show \
+            --resource-group rg-cosmos-learning \
+            --name cosmos-logicapp \
+            --resource-type Microsoft.Logic/workflows \
+            --query identity.principalId \
+            -o tsv)
+
+          echo "PRINCIPAL_ID=$PRINCIPAL_ID" >> $GITHUB_ENV
+          
+
+      - name: Assign Cosmos DB RBAC Role
+        run: |
+          az cosmosdb sql role assignment create \
+            --account-name cosmos-acc-bicep \
+            --resource-group rg-cosmos-learning \
+            --scope "/" \
+            --principal-id $PRINCIPAL_ID \
+            --role-definition-name "Cosmos DB Built-in Data Contributor"
