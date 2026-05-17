@@ -33,7 +33,7 @@ jobs:
         run: |
           az deployment group create \
             --resource-group rg-cosmos-learning \
-            --template-file deploy/logicapp.bicep \
+            --template-file modules/logicapp.bicep \
             --parameters \
               logicAppName=la-cosmos-dev \
               accountName=cosmos-acc-bicep \
