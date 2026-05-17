@@ -76,7 +76,7 @@ resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
               'x-ms-documentdb-is-upsert': 'true'
             }
 
-            body: '@outputs(''BuildDocument'')'
+            body: '@outputs(\'BuildDocument\')'
           }
         }
 
