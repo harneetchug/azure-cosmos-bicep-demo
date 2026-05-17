@@ -45,7 +45,7 @@ jobs:
         run: |
           PRINCIPAL_ID=$(az resource show \
             --resource-group rg-cosmos-learning \
-            --name cosmos-logicapp \
+            --name la-cosmos-dev \
             --resource-type Microsoft.Logic/workflows \
             --query identity.principalId \
             -o tsv)
