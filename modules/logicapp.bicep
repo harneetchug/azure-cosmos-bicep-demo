@@ -1,24 +1,24 @@
 param location string = 'francecentral'
-
 param logicAppName string
 
 param accountName string
 param databaseName string
 param containerName string
 
-
 @description('Cosmos DB endpoint')
 param cosmosEndpoint string
 
-resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
+var cosmosUri = '${cosmosEndpoint}/dbs/${databaseName}/colls/${containerName}/docs'
 
+resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
+  name: logicAppName
+  location: location
 
   properties: {
     state: 'Enabled'
 
     definition: {
       '$schema': 'https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#'
-
       contentVersion: '1.0.0.0'
 
       parameters: {
@@ -37,17 +37,9 @@ resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
               type: 'object'
 
               properties: {
-                id: {
-                  type: 'string'
-                }
-
-                customerId: {
-                  type: 'string'
-                }
-
-                name: {
-                  type: 'string'
-                }
+                id: { type: 'string' }
+                customerId: { type: 'string' }
+                name: { type: 'string' }
               }
 
               required: [
@@ -77,7 +69,7 @@ resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
           inputs: {
             method: 'POST'
 
-            uri: '${cosmosEndpoint}/dbs/${databaseName}/colls/${containerName}/docs'
+            uri: cosmosUri
 
             headers: {
               'Content-Type': 'application/json'
@@ -100,6 +92,12 @@ resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
             }
           }
         }
+      }
+    }
+
+    parameters: {
+      cosmosEndpoint: {
+        value: cosmosEndpoint
       }
     }
   }
