@@ -33,4 +33,10 @@ jobs:
         run: |
           az deployment group create \
             --resource-group rg-cosmos-learning \
-            --template-file modules/logicapp.bicep
+            --template-file deploy/logicapp.bicep \
+            --parameters \
+              logicAppName=la-cosmos-dev \
+              accountName=cosmos-acc-bicep \
+              databaseName=customerdb \
+              containerName=customercontainer \
+              cosmosEndpoint=https://cosmos-acc-bicep.documents.azure.com:443/
