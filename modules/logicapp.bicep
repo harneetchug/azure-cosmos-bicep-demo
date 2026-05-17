@@ -55,7 +55,6 @@ resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
 
         BuildDocument: {
           type: 'Compose'
-
           inputs: {
             id: '@triggerBody()?[\'id\']'
             customerId: '@triggerBody()?[\'customerId\']'
@@ -66,26 +65,36 @@ resource logicApp 'Microsoft.Logic/workflows@2019-05-01' = {
         WriteToCosmos: {
           type: 'Http'
 
+          runAfter: {
+            BuildDocument: [
+              'Succeeded'
+            ]
+          }
+
           inputs: {
             method: 'POST'
-
-            uri: cosmosUri
+            uri: '${cosmosEndpoint}/dbs/${databaseName}/colls/${containerName}/docs'
 
             headers: {
               'Content-Type': 'application/json'
               'x-ms-documentdb-is-upsert': 'true'
             }
 
-            body: '@outputs(\'BuildDocument\')'
+            body: '@body(\'BuildDocument\')'
           }
         }
 
         Response: {
           type: 'Response'
 
+          runAfter: {
+            WriteToCosmos: [
+              'Succeeded'
+            ]
+          }
+
           inputs: {
             statusCode: 200
-
             body: {
               message: 'Document inserted into Cosmos DB'
               id: '@triggerBody()?[\'id\']'
